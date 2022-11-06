@@ -55,9 +55,7 @@ def download():
         selected_file = file
     if not selected_file:
         return 'No file found!', 500
-    return send_from_directory(FILES, selected_file)
-
-
+    return send_from_directory(FILES, selected_file, download_name="games.pgn")
 
 
 if __name__ == '__main__':
