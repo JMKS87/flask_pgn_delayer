@@ -1,12 +1,14 @@
 import os
 import time
 
+from cachetools import TTLCache, cached
 from flask import Flask, request, send_from_directory
 
 DIR = os.path.dirname(os.path.abspath(__file__))
 FILES = os.path.join(DIR, 'FILES')
 ALLOWED_EXTENSIONS = {'pgn'}
 DELAY = 2 * 60  # 2 minutes
+DOWNLOAD_CACHE_TIME = 10  # seconds
 
 app = Flask(__name__)
 
@@ -34,6 +36,7 @@ def upload():
         return ""
 
 
+@cached(cache=TTLCache(maxsize=1, ttl=DOWNLOAD_CACHE_TIME))
 @app.route('/download', methods=['GET'])
 def download():
     current_time = int(time.time())

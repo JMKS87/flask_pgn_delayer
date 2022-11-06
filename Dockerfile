@@ -1,7 +1,8 @@
 FROM python:3.10-alpine
 
 RUN pip install -U pip
-RUN pip install flask
+COPY requirements.txt /requirements.txt
+RUN pip install -r requirements.txt
 EXPOSE 5000
 COPY . /app
 WORKDIR /app
